@@ -1,0 +1,11 @@
+{
+    "cmds": {
+        "accesslevel": 1
+    },
+    "game": {
+        "accesslevel": 0
+    },
+    "t": {
+        "accesslevel": 0
+    }
+}
