@@ -84,16 +84,27 @@ function cmds(channel, userstate, action, command_name, ...args) {
     //console.log(action, command_name, command_response);
 }
 
-function game(channel, userstate) {
-
+function game(channel, userstate, ...args) {
+    const new_game = args.join(' ');
+    if (new_game <= 0) {
+        request.get({ url: api_url + `/game/${channel.substring(1)}/` }, (error, response, body) => {
+            request.get({ url: api_url + `/name/${channel.substring(1)}/` }, (err, res, b) => {
+                client.say(channel, `${userstate['display-name']} -> ${b} is playing ${body}`);
+            });
+        });
+    } else {
+        request.put({ url: api_url + `/game/${channel.substring(1)}/`, json: { channel: { game: `${new_game}` } } }, (error, response, body) => {
+            //console.log('summething', error);
+        });
+    }
 }
 
 function title(channel, userstate, ...args) {
     const new_title = args.join(' ');
     if (new_title <= 0) {
         request.get({ url: api_url + `/title/${channel.substring(1)}/` }, (error, response, body) => {
-            //console.log(body);
-            client.say(channel, body);
+            console.log(userstate)
+            client.say(channel, `${userstate['display-name']} -> Current Stream Title: ${body}`);
         });
     } else {
         request.put({ url: api_url + `/title/${channel.substring(1)}/`, json: { channel: { status: `${new_title}` } } }, (error, response, body) => {

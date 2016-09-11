@@ -44,8 +44,10 @@ app.get('/game/:channel', (req, res) => {
     });
 });
 
-app.put('/game/:channel', (req, res) => {
-    resquest.get({})
+app.put('/game/:channel', jsonParser, (req, res) => {
+    request.put({ url: api_url + `/channels/${req.params.channel}`, qs: { oauth_token: oauth_token, client_id: client_id }, json: { channel: { game: `${req.body.channel.game}` } } }, (err, response, body) => {
+        res.end();
+    });
 });
 
 // get title
